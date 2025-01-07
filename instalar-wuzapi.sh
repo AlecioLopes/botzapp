@@ -6,51 +6,35 @@ echo "Instalando Git e Go..."
 pkg install -y git golang &>/dev/null
 echo "Git e Go foram instalados corretamente."
 
-# Clonar o repositório do BotzApp
-echo "Clonando o repositório do BotzApp..."
-git clone https://github.com/AlecioLopes/botzapp.git &>/dev/null
-
-# Verificar se o diretório botzapp foi criado
-if [ ! -d "botzapp" ]; then
-    echo "Erro: O diretório 'botzapp' não foi criado. Verifique o clone do repositório."
-    exit 1
-fi
+# Clonar o repositório do Botzão
+echo "Clonando o repositório do Botzão..."
+git clone https://github.com/AlecioLopes/wuzapi.git &>/dev/null
 echo "Repositório clonado com sucesso."
 
 # Navegar para o diretório do projeto
-echo "Tentando acessar o diretório 'botzapp'..."
-cd botzapp || { echo "Erro: Não foi possível acessar o diretório 'botzapp'"; exit 1; }
+cd wuzapi
 
-# Verificar se estamos no diretório correto
-if [ "$(pwd)" != "$(realpath botzapp)" ]; then
-    echo "Erro: O diretório 'botzapp' não é o diretório esperado."
-    exit 1
-fi
-
-# Compilar o binário do BotzApp com o nome padrão
+# Compilar o binário do Botzão com o nome padrão
 echo "Compilando o binário..."
-if ! go build . &>/dev/null; then
-    echo "Erro ao compilar o binário do BotzApp."
-    exit 1
-fi
+go build . &>/dev/null
 
 # Verificar se o binário foi compilado corretamente
 if [ -f "./wuzapi" ]; then
-    echo "BotzApp foi compilado com sucesso no Termux."
+    echo "Botzão foi compilado corretamente no Termux."
     
-    # Dar permissões de execução ao binário
+    # Conceder permissões de execução ao binário
     chmod +x wuzapi
-    chmod +x executar_botzapp.sh
+    chmod +x executar_wuzapi.sh
 
-    echo "Permissões de execução concedidas ao BotzApp."
+    echo "Permissões de execução concedidas ao Botzão."
 else
-    echo "Erro ao compilar o BotzApp."
+    echo "Erro ao compilar o Botzão."
     exit 1
 fi
 
 # Conceder permissões ao Tasker
 mkdir -p ~/.termux && echo "allow-external-apps=true" >> ~/.termux/termux.properties
 
-# Executar o BotzApp
-echo "Executando o BotzApp..."
+# Executar o Botzão
+echo "Executando o Botzão..."
 ./wuzapi
